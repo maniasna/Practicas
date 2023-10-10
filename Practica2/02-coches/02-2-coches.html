@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/estilo.css">
+    <title>Ejercicio 4</title>
+</head>
+
+<!-- Ejercicio 4 -->
+<body>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Precio</th>
+                <th>Año</th>
+                <th>Foto del coche</th>
+            </tr>
+        </thead>
+        <tbody id="cochesTabla">
+        </tbody>
+    </table>
+
+    <script>
+        function coche(marca, modelo, precio, anno, urls) {
+            this.marc = marca;
+            this.model = modelo;
+            this.price = precio;
+            this.year = anno;
+            this.url = urls;
+        }
+
+        let coches = new Array(5);
+        coches[0] = new coche("Ferrari", "Scaglietti", "12000€", "2010", "img/ferrari.png");
+        coches[1] = new coche("BMW", "Z4", "13000€", "1999", "img/bmw.png");
+        coches[2] = new coche("Seat", "Toledo", "15000€", "1999", "img/seat.png");
+        coches[3] = new coche("Fiat", "500", "16000€", "1995", "img/fiat.png");
+        coches[4] = new coche("Renault", "Clio", "11000€", "1995", "img/renault.png");
+
+        const cochesTabla = document.getElementById("cochesTabla");
+
+        for (i = 0; i < coches.length; i++) {
+            const fila = document.createElement("tr");
+            fila.innerHTML = `
+                <td>${coches[i].marc}</td>
+                <td>${coches[i].model}</td>
+                <td>${coches[i].price}</td>
+                <td>${coches[i].year}</td>
+                <td><img src="${coches[i].url}" alt="Foto del coche"></td>
+            `;
+            cochesTabla.appendChild(fila);
+        }
+    </script>
+</body>
+
+</html>
