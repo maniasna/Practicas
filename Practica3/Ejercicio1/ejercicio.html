@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 1</title>
+</head>
+
+<body>
+    <script>
+        // Ejercicio 1
+        // Creacion de la clase persona junto a los getter y setter de los atributos privados
+        class Persona {
+            constructor(nombre, apellidos, poblacion, edad, estudios, carnetconducir) {
+                if (typeof nombre !== 'string') {
+                    alert('El nombre debe ser un string');
+                }
+                if (typeof apellidos !== 'string') {
+                    alert('El apellido debe ser un string');
+                }
+                if (typeof poblacion !== 'string') {
+                    alert('La poblacion debe ser un string');
+                }
+                if (typeof edad !== 'number') {
+                    alert('El año debe ser un number');
+                }
+                if (typeof estudios !== 'string') {
+                    alert('Los estudios deben ser un string');
+                }
+                if (typeof carnetconducir !== 'boolean') {
+                    alert('El carnet de conducir debe ser un boolean');
+                }
+
+                this.nombre = nombre;
+                this.apellidos = apellidos;
+                this.poblacion = poblacion;
+                this.edad = edad;
+                this.estudios = estudios;
+                this.carnetconducir = carnetconducir;
+            }
+
+            // Getter
+            getedadPersona() {
+                return this.edades;
+            }
+            getestudiosPersona() {
+                return this.estudios;
+            }
+
+            // Setter
+            setedadPersona(nuevaEdad) {
+                this.edad = nuevaEdad;
+            }
+            setestudiosPersona(nuevosEstudios) {
+                this.estudios = nuevosEstudios;
+            }
+        }
+
+        // Ejercicio 2
+        // Creacion del array de objeto persona
+
+        const p1=new Persona("Maria", "Martinez", "Toledo", 23, "ASIR", true);
+        const p2=new Persona("Lucia", "Palacios", "Cuenca", 24, "DAW", false);
+        const p3=new Persona("Jose", "Garcia", "Albacete", 25, "DAM", true);
+        const personas = [p1,p2,p3];
+
+        // Ordenamos el array de objeto persona por los nombres de las personas
+        personas.sort((a, b) => a.nombre.localeCompare(b.nombre));
+
+        // Lo visualizamos por la página web
+        for (let i = 0; i < personas.length; i++) {
+            document.write("Nombre: " + personas[i].nombre + "&ensp;");
+            document.write("Apellido: " + personas[i].apellidos + "&ensp;");
+            document.write("Población: " + personas[i].poblacion + "&ensp;");
+            document.write("Edad: " + personas[i].edad + "&ensp;");
+            document.write("Curso: " + personas[i].estudios + "&ensp;");
+            document.write("Carnet de conducir: " + personas[i].carnetconducir + "&ensp;");
+            document.write("<br>");
+        }
+        document.write("<br>");
+
+        // Ejercicio 3
+        const dniPersonas = new Map();
+        dniPersonas.set("12345678A", new Persona("Pepe", "Garrido", "Guadalajara", 27, "Teleco", false));
+        dniPersonas.set("23456789Z", new Persona("Luciano", "Fernandez", "Ciudad Real", 21, "ADE", true));
+
+        // Ordenamos el map por clave
+        const dniPersona= new Map([...dniPersonas.entries()].sort());
+        // No podemos ordenarlo por la edad porque los map solo se pueden ordenar por la clave
+
+        // Creamos la tabla para visualizar las personas con sus DNI
+        document.write("<table border=1>");
+        document.write("<tr>");
+        document.write("<td><b>DNI</b></td>");
+        document.write("<td><b>Nombre</b></td>");
+        document.write("<td><b>Apellido</b></td>");
+        document.write("<td><b>Población</b></td>");
+        document.write("<td><b>Edad</b></td>");
+        document.write("<td><b>Curso</b></td>");
+        document.write("<td><b>Carnet de conducir</b></td>");
+        document.write("<tr>");
+
+        dniPersona.forEach((persona, dni) => {
+            document.write("<tr>");
+            document.write("<td>" + dni + "</td>");
+            document.write("<td>" + persona.nombre + "</td>");
+            document.write("<td>" + persona.apellidos + "</td>");
+            document.write("<td>" + persona.poblacion + "</td>");
+            document.write("<td>" + persona.edad + "</td>");
+            document.write("<td>" + persona.estudios + "</td>");
+            document.write("<td>" + persona.carnetconducir + "</td>");
+            document.write("</tr>");
+        });
+
+        document.write("</table>");
+    </script>
+</body>
+
+</html>
