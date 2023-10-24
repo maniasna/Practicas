@@ -1,0 +1,43 @@
+<!--
+    Se trata de una pagina web donde tengo 3 checkbox
+    Conforme esta el html en la pagina web yo puedo tener
+    los 3 activos
+    Con java script con los eventos debo crear un script de
+    manera que solo me deje marcar una de las opciones
+    de los checkbox
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Selecciona una opcion:</h2>
+    <input type="checkbox"  id="tarea1" class="checkbox">
+    <label for="tarea1">Tarea 1</label>
+    &ensp;&ensp;&ensp;
+    <input type="checkbox" id="tarea2" class="checkbox">
+    <label for="tarea2">Tarea 2</label>
+    &ensp;&ensp;&ensp;
+    <input type="checkbox" id="tarea3" class="checkbox">
+    <label for="tarea3">Tarea 3</label>
+
+    <script>
+        const checkboxes = document.querySelectorAll('.checkbox');
+        
+        checkboxes.forEach(checkbox=> {
+            checkbox.addEventListener('change', function() {
+                if(this.checked) {
+                    checkboxes.forEach(otherCheckbox => {
+                        if (otherCheckbox !== this) {
+                            otherCheckbox.checked = false;
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
