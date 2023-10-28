@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilo.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="contenedor">
+        <h1>Dar de alta cuenta</h1>
+        <form id="formulario" action="procesar.php">
+            <div class="form-group">
+                <label for="user">Nombre:</label>
+                <input type="text" name="user" id="user" autofocus>
+                <p class="error-feedback"></p>
+            </div>
+            <div class="form-group">
+                <label for="passwd">Password:</label>
+                <input type="password" name="passwd" id="passwd">
+                <p class="error-feedback"></p>
+            </div>
+            <div class="form-group">
+                <label for="cp">Código Postal:</label>
+                <input type="text" name="cp" id="cp">
+                <p class="error-feedback"></p>
+            </div>
+            <div class="form-group">
+                <label for="numeroentero">Número entero:</label>
+                <input type="text" name="numeroentero" id="numeroentero">
+                <p class="error-feedback"></p>
+            </div>
+            <div class="form-group">
+                <label for="numeroreal">Número real:</label>
+                <input type="text" name="numeroreal" id="numeroreal">
+                <p class="error-feedback"></p>
+            </div>
+            <div class="form-group">
+                <label for="telefono">Número de teléfono:</label>
+                <input type="text" name="telefono" id="telefono">
+                <p class="error-feedback"></p>
+            </div>
+            <div class="form-group">
+                <label for="telefonointernacional">Número de teléfono internacional:</label>
+                <input type="text" name="telefonointernacional" id="telefonointernacional">
+                <p class="error-feedback"></p>
+            </div>
+            <div class="form-group">
+                <label for="fecha">Fecha:</label>
+                <input type="date" name="fecha" id="fecha">
+                <p class="error-feedback"></p>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" name="email" id="email">
+                <p class="error-feedback"></p>
+            </div>
+            <div class="form-group">
+                <label for="dni">DNI:</label>
+                <input type="text" name="dni" id="dni">
+                <p class="error-feedback"></p>
+            </div>
+            <div class="form-group">
+                <label for="url">URL:</label>
+                <input type="text" name="url" id="url">
+                <p class="error-feedback"></p>
+            </div>
+            <div class="form-group">
+                <label for="tarjetacredito">Trajeta de Crédito:</label>
+                <input type="text" name="tarjetacredito" id="tarjetacredito">
+                <p class="error-feedback"></p>
+            </div>
+            <div class="form-group">
+                <label for="condiciones">Aceptar las condiciones:</label>
+                <input type="checkbox" name="condiciones" id="condiciones">
+                <p class="error-feedback"></p>
+            </div>
+            <div class="form-group">
+                <label for="condiciones2">Envío de publicidad de Xiaomi:</label>
+                <input type="checkbox" name="condiciones2" id="condiciones2">
+                <p class="error-feedback"></p>
+            </div>
+            <div class="form-group">
+                <button type="submit">Enviar</button>
+                <button type="reset">Restablecer</button>
+            </div>
+        </form>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
