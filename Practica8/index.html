@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign-In</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+
+<body>
+    <form class="form-signin" id="loginForm">
+        <img class="" src="resources/img/logo.png">
+        <h1>Please sign in</h1>
+        <input type="email" id="inputEmail" class="inputEmail" placeholder="Email address" required autofocus>
+        <br>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <br>
+        <label>
+            <input type="checkbox" id="box" value="remember-me"> Remember me
+        </label>
+
+        <br>
+        <button class="btn" type="submit">Sign in</button>
+        <br>
+        <br>
+        <p class="footer">&copy; 2023-2024</p>
+    </form>
+
+    <script>
+
+        let formulario = document.getElementById('loginForm');
+        formulario.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            let mail = document.getElementById('inputEmail').value;
+            let passwd = document.getElementById('inputPassword').value;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'https://jsonplaceholder.typicode.com/users', true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    let users = JSON.parse(xhr.responseText);
+
+                    let authenticatedUser = users.find(function (user) {
+                        return user.email === mail && user.address.zipcode === passwd;
+                    });
+
+                    if (authenticatedUser) {
+                        window.open('blog.html', '_self');
+                    } else {
+                        alert('Credenciales incorrectas');
+                    }
+                }
+            };
+            xhr.send();
+        });
+    </script>
+
+</body>
+</html>

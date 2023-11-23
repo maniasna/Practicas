@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <link rel="stylesheet" href="estilo.2.css">
+</head>
+
+<body>
+    <div id="header">
+        <ul>
+            <li>Mi Blog Backend</li>
+            <li><button onclick="accedeUsers()"><img src="resources/img/users.png">&ensp;Usuarios</button></li>
+            <li><button onclick="accederPost()"><img src="resources/img/folder.png">&ensp;Post</button></li>
+        </ul>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead id="cabecera">
+            </thead>
+            <tbody id="cuerpo"></tbody>
+        </table>
+    </div>
+    <div id="detalles"></div>
+    <div id="pagination">
+        <button onclick="anterior()">Anterior</button>
+        <span id="actual">&ensp;1&ensp;</span>
+        <button onclick="siguiente()">Siguiente</button>
+    </div>
+
+
+    <script>
+        let paginacionVisible = true;
+        ocultarPaginado();
+        function accedeUsers() {
+            ocultarPaginado();
+            let url = 'https://jsonplaceholder.typicode.com/users';
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Mensaje" + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    pintaUsuarios(data);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+
+        function pintaUsuarios(listausers) {
+            let cabecera = document.getElementById('cabecera');
+            let cuerpo = document.getElementById('cuerpo');
+            cabecera.innerHTML = ` <th>#</th><th>Username</th><th>Nombre Completo</th><th>Email</th><th>Posts</th>`;
+
+            cuerpo.innerHTML = '';
+
+            listausers.forEach(usuario => {
+                cuerpo.innerHTML += `<tr><td>${usuario.id}</td><td><button onclick="pintaUsuario(${usuario.id})">${usuario.username}</button></td><td>${usuario.name}</td><td>${usuario.email}</td><td><button onclick="obtenerPost(${usuario.id})">Mostrar Post</button></td></tr>`;
+            });
+        }
+
+        function pintaUsuario(id) {
+            let url = `https://jsonplaceholder.typicode.com/users/${id}`;
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Mensaje" + response.status);
+                    }
+                    return response.json();
+                })
+                .then(usuario => {
+                    let detalles = document.getElementById('detalles');
+                    let headerOriginal = document.getElementById('header').innerHTML;
+                    detalles.innerHTML = `
+    <h1>Detalles del usuario ${usuario.name}</h1>
+    <p>&ensp;●&ensp;<strong>ID de Usuario:</strong> ${usuario.id}</p>
+    <p>&ensp;●&ensp;<strong>Nombre del usuario:</strong> ${usuario.name}</p>
+    <p>&ensp;●&ensp;<strong>Username del usuario:</strong> ${usuario.username}</p>
+    <p>&ensp;●&ensp;<strong>Email del usuario:</strong> ${usuario.email}</p>
+    <p>&ensp;●&ensp;<strong>Dirección del usuario:</strong></p>
+    <p>&ensp;&ensp;<strong>-</strong>&ensp;<strong>Calle:</strong> ${usuario.address.street}</p>
+    <p>&ensp;&ensp;<strong>-</strong>&ensp;<strong>Suite:</strong> ${usuario.address.suite}</p>
+    <p>&ensp;&ensp;<strong>-</strong>&ensp;<strong>Ciudad:</strong> ${usuario.address.city}</p>
+    <p>&ensp;&ensp;<strong>-</strong>&ensp;<strong>Código postal:</strong> ${usuario.address.zipcode}</p>
+    <p>&ensp;&ensp;<strong>-</strong>&ensp;<strong>Coordenadas:</strong> </p>
+    <p>&ensp;&ensp;&ensp;◇&ensp;<strong>Latitud:</strong> ${usuario.address.geo.lat}</p>
+    <p>&ensp;&ensp;&ensp;◇&ensp;<strong>Longitud:</strong> ${usuario.address.geo.lng}</p>
+    <p>&ensp;●&ensp;<strong>Telefono del usuario:</strong> ${usuario.phone}</p>
+    <p>&ensp;●&ensp;<strong>Página web del usuario:</strong> ${usuario.website}</p>
+    <p>&ensp;●&ensp;<strong>Compañia del usuario:</strong> </p>
+    <p>&ensp;&ensp;<strong>-</strong>&ensp;<strong>Nombre de la compañia:</strong> ${usuario.company.name}</p>
+    <p>&ensp;&ensp;<strong>-</strong>&ensp;<strong>Eslogan de la compañia:</strong> ${usuario.company.catchPhrase}</p>
+    <p>&ensp;&ensp;<strong>-</strong>&ensp;<strong>Bs de la compañia:</strong> ${usuario.company.bs}</p>
+    <p><button onclick="obtenerPost(${usuario.id})">Mostrar Post</button></p>`;
+                    ocultarPaginado();
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+
+        function accederPost() {
+            ocultarDetalles();
+            mostrarPaginado();
+            let url = 'https://jsonplaceholder.typicode.com/posts';
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Respuesta no tramitada: " + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    pintaPost(data);
+                    mostrarPaginado();
+                })
+                .catch(error => {
+                    console.error("Error fatal: ", error);
+                });
+        }
+
+        let cantidad = 5;
+        let actual = 1;
+
+        function pintaPost(posts) {
+            let cabecera = document.getElementById('cabecera');
+            let cuerpo = document.getElementById('cuerpo');
+            cabecera.innerHTML = ` <th>ID</th><th>Titulo</th><th>Cuerpo</th><th>Usuario</th>`;
+
+            cuerpo.innerHTML = '';
+
+            let inicio = (actual - 1) * cantidad;
+            let fin = inicio + cantidad;
+
+            let postsPagina = posts.slice(inicio, fin);
+
+            postsPagina.forEach(post => {
+                cuerpo.innerHTML += `<tr>
+        <td>${post.id}</td>
+        <td>${post.title}</td>
+        <td>${post.body}</td>
+        <td><button onclick="pintaUsuario(${post.userId})">${post.userId}</button></td>
+    </tr>`;
+            });
+            document.getElementById('actual').innerText = actual;
+            mostrarPaginado();
+        }
+
+        function obtenerPost(userId) {
+            ocultarDetalles();
+            let url = `https://jsonplaceholder.typicode.com/posts?userId=${userId}`;
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Respuesta no tramitada: " + response.status);
+                    }
+                    return response.json();
+                })
+                .then(posts => {
+                    let cabecera = document.getElementById('cabecera');
+                    let cuerpo = document.getElementById('cuerpo');
+                    cabecera.innerHTML = ` <th>ID</th><th>Titulo</th><th>Cuerpo</th>`;
+                    cuerpo.innerHTML = '';
+                    posts.forEach(post => {
+                        cuerpo.innerHTML += `<tr>
+        <td>${post.id}</td>
+        <td>${post.title}</td>
+        <td>${post.body}</td>
+    </tr>`;
+                    });
+                })
+                .catch(error => {
+                    console.error("Error fatal: ", error);
+                });
+        }
+
+        function ocultarTablecontainer() {
+            document.getElementById('table-container').style.display = 'none';
+        }
+
+        function mostrarPaginado() {
+            paginacionVisible = true;
+            document.getElementById('pagination').style.display = 'block';
+        }
+
+        function ocultarPaginado() {
+            paginacionVisible = false;
+            document.getElementById('pagination').style.display = 'none';
+        }
+
+        function ocultarDetalles() {
+            document.getElementById('detalles').innerHTML = '';
+        }
+
+        function anterior() {
+            if (actual > 1 && paginacionVisible) {
+                actual--;
+                accederPost();
+            }
+        }
+
+        function siguiente() {
+            if (paginacionVisible) {
+                actual++;
+                accederPost();
+            }
+        }
+    </script>
+</body>
+
+</html>
