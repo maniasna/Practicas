@@ -9,14 +9,18 @@
 </head>
 
 <body>
+    <!-- Cabecera -->
     <div id="header">
         <ul>
+            <!-- Logo o título de la página -->
             <li>Mi Blog Backend</li>
+            <!-- Enlaces que llaman a funciones para imprimir datos de enlaces de una API falsa -->
             <li><button onclick="accedeUsers()"><img src="resources/img/users.png">&ensp;Usuarios</button></li>
             <li><button onclick="accederPost()"><img src="resources/img/folder.png">&ensp;Post</button></li>
         </ul>
     </div>
 
+    <!-- Tablas de contenido -->
     <div class="table-container">
         <table>
             <thead id="cabecera">
@@ -24,7 +28,11 @@
             <tbody id="cuerpo"></tbody>
         </table>
     </div>
+
+    <!-- Div para los detalles de informacion de los usuarios -->
     <div id="detalles"></div>
+
+    <!-- Div creado para los botones de paginacion -->
     <div id="pagination">
         <button onclick="anterior()">Anterior</button>
         <span id="actual">&ensp;1&ensp;</span>
@@ -33,8 +41,11 @@
 
 
     <script>
+        // Añadimos las dos primeras sentencias para que los botones de paginacion no salgan en la página nada más abrirla
         let paginacionVisible = true;
         ocultarPaginado();
+
+        // Creamos la funcion para poder acceder a los datos de los usuarios
         function accedeUsers() {
             ocultarPaginado();
             let url = 'https://jsonplaceholder.typicode.com/users';
@@ -47,6 +58,7 @@
                     return response.json();
                 })
                 .then(data => {
+                    // Imprimimos los usuarios en una tabla
                     pintaUsuarios(data);
                 })
                 .catch(error => {
@@ -54,6 +66,7 @@
                 });
         }
 
+        // Creamos la funcion que imprime en una tabla los datos basicos de los usuarios cuando le damos al botón de usuarios de la cabecera
         function pintaUsuarios(listausers) {
             let cabecera = document.getElementById('cabecera');
             let cuerpo = document.getElementById('cuerpo');
@@ -66,6 +79,7 @@
             });
         }
 
+        // Creamos la funcion que imprime los datos detallados de los usuarios cuando pulsamos el nombre del usuario
         function pintaUsuario(id) {
             let url = `https://jsonplaceholder.typicode.com/users/${id}`;
 
@@ -107,6 +121,7 @@
                 });
         }
 
+        // Creamos la funcion para poder acceder a los datos de los posts
         function accederPost() {
             ocultarDetalles();
             mostrarPaginado();
@@ -128,9 +143,11 @@
                 });
         }
 
+        // Creamos dos variables para gestionar la paginación
         let cantidad = 5;
         let actual = 1;
 
+        // Creamos una funciona para imprimir por pantalla en una tabla los datos de los posts
         function pintaPost(posts) {
             let cabecera = document.getElementById('cabecera');
             let cuerpo = document.getElementById('cuerpo');
@@ -138,6 +155,7 @@
 
             cuerpo.innerHTML = '';
 
+            // Con estas variables más las declaradas previamente hacemos que el paginado vaya de 5 en 5
             let inicio = (actual - 1) * cantidad;
             let fin = inicio + cantidad;
 
@@ -155,6 +173,7 @@
             mostrarPaginado();
         }
 
+        // Creamos una funcion que nos imprima los post de un usuario cuando le damos al boton de Mostrar Post de la tabla de los Usuarios
         function obtenerPost(userId) {
             ocultarDetalles();
             let url = `https://jsonplaceholder.typicode.com/posts?userId=${userId}`;
@@ -184,24 +203,29 @@
                 });
         }
 
+        // Esta funcion sirve para ocultar la tabla
         function ocultarTablecontainer() {
             document.getElementById('table-container').style.display = 'none';
         }
 
+        // Esta funcion sirve para mostrar el paginado
         function mostrarPaginado() {
             paginacionVisible = true;
             document.getElementById('pagination').style.display = 'block';
         }
 
+        // Esta funcion sirve para ocultar el paginado
         function ocultarPaginado() {
             paginacionVisible = false;
             document.getElementById('pagination').style.display = 'none';
         }
 
+        // Esta funcion sirve para ocultar los detalles de los usuarios
         function ocultarDetalles() {
             document.getElementById('detalles').innerHTML = '';
         }
 
+        // Esta funcion sirve para ir a la pagina anterior en el paginado
         function anterior() {
             if (actual > 1 && paginacionVisible) {
                 actual--;
@@ -209,6 +233,7 @@
             }
         }
 
+        // Esta funcion sirve para ir a la pagina siguiente en el paginado
         function siguiente() {
             if (paginacionVisible) {
                 actual++;
